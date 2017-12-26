@@ -1,0 +1,42 @@
+{
+  "name": "gogrocery1",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "test": "jest"
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "body-parser": "^1.18.2",
+    "crawler": "^1.1.2",
+    "express": "^4.16.2",
+    "mongoose": "^4.13.6",
+    "morgan": "^1.9.0",
+    "react": "^16.2.0",
+    "react-native": "^0.51.0",
+    "react-native-android-back-button": "^0.3.0",
+    "react-native-button": "^2.1.0",
+    "react-native-cancelable-fetch": "^0.1.1",
+    "react-native-cheerio": "^1.0.0-rc.4",
+    "react-native-cli": "^2.0.1",
+    "react-native-fetch": "^1.0.0",
+    "react-native-router-flux": "^4.0.0-beta.24",
+    "react-native-search-filter": "git+https://github.com/mjsolidarios/react-native-search-filter.git",
+    "react-native-tab-navigator": "^0.3.4",
+    "react-redux": "^5.0.6",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.2.0",
+    "simplecrawler": "^1.1.6"
+  },
+  "devDependencies": {
+    "babel-jest": "21.2.0",
+    "babel-preset-react-native": "4.0.0",
+    "jest": "21.2.1",
+    "react-test-renderer": "16.0.0"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
+}
