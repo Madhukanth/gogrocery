@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import TabNavigator from 'react-native-tab-navigator';
 import { Image } from 'react-native';
+//import FontAwesomeIcons from 'react-native-vector-icons/FontAwesome';
 import VegetablesFetch from './VegetablesFetch';
 import GroceryFetch from './GroceryFetch';
 import PersonalCareFetch from './PersonalCareFetch';
@@ -71,7 +72,7 @@ class ProductMenu extends Component {
 					titleStyle={{ fontSize: 10, color: 'black' }}
 					renderIcon={() => (
 						<Image
-							style={{ height: 30, width: 30 }}
+							style={{ height: 27, width: 27 }}
 							source={require('../../icons/d.png')}
 						/>
 					)}
