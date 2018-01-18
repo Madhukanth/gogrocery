@@ -1,8 +1,17 @@
 import React, { Component } from 'react';
-import { View, Text, Image, FlatList, TouchableOpacity } from 'react-native';
+import {
+	View,
+	Text,
+	Image,
+	FlatList,
+	TouchableOpacity,
+	ScrollView
+} from 'react-native';
+import axios from 'axios';
+import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { cartChanged, cartDelete } from '../actions/CartActions';
-import { CardSection } from '../components/common';
+import { Card, CardSection, Button } from '../components/common';
 
 class CartList extends Component {
 	render() {
@@ -15,56 +24,185 @@ class CartList extends Component {
 		} else if (this.props.items !== []) {
 			console.log(this.props.items);
 			return (
-				<FlatList
-					data={this.props.items}
-					renderItem={({ item }) => (
-						<CardSection
-							style={{ borderWidth: 1, borderBottomWidth: 1, height: 120 }}
+				<Card
+					style={{
+						borderLeftWidth: 0,
+						borderBottomWidth: 0,
+						borderColor: '#007aff'
+					}}
+				>
+					<CardSection
+						style={{
+							flexDirection: 'row',
+							borderWidth: 2,
+							borderBottomWidth: 2,
+							paddingLeft: 20
+						}}
+					>
+						<Text style={{ fontSize: 16, fontWeight: 'bold', paddingTop: 9 }}>
+							ITEM
+						</Text>
+						<Text
+							style={{
+								fontSize: 16,
+								fontWeight: 'bold',
+								paddingLeft: 50,
+								paddingTop: 9
+							}}
 						>
-							<Image
-								source={{ uri: item.imageurl }}
-								style={{ height: 100, width: 90 }}
+							QUANTITY
+						</Text>
+						<Text
+							style={{
+								fontSize: 16,
+								fontWeight: 'bold',
+								paddingLeft: 20,
+								paddingTop: 9
+							}}
+						>
+							PRICE
+						</Text>
+					</CardSection>
+					<ScrollView>
+						<Card style={{ marginLeft: 0, marginRight: 0 }}>
+							<FlatList
+								data={this.props.items}
+								renderItem={({ item }) => (
+									<CardSection
+										style={{
+											borderWidth: 2,
+											borderBottomWidth: 1,
+											height: 150,
+											padding: 0,
+											justifyContent: 'center'
+										}}
+									>
+										<CardSection
+											style={{
+												flexDirection: 'column',
+												height: 140,
+												padding: 2,
+												marginTop: 2
+											}}
+										>
+											<Image
+												source={{
+													uri: item.imageurl
+												}}
+												style={{
+													height: 100,
+													width: 110,
+													borderRadius: 5,
+													borderWidth: 1,
+													borderColor: 'black'
+												}}
+											/>
+											<View
+												style={{
+													width: 110,
+													paddingLeft: 3,
+													justifyContent: 'space-around'
+												}}
+											>
+												<Text style={{ fontSize: 15, fontWeight: 'bold' }}>
+													{item.name}
+												</Text>
+											</View>
+										</CardSection>
+										<View
+											style={{
+												width: 75,
+												paddingLeft: 10,
+												justifyContent: 'space-around',
+												marginBottom: 25
+											}}
+										>
+											<Text style={{ fontSize: 15, fontWeight: 'bold' }}>
+												Quantity
+											</Text>
+										</View>
+										<View
+											style={{
+												width: 75,
+												paddingLeft: 15,
+												justifyContent: 'space-around',
+												marginBottom: 25
+											}}
+										>
+											<Text style={{ fontSize: 15, fontWeight: 'bold' }}>
+												Price
+											</Text>
+										</View>
+
+										<TouchableOpacity
+											style={{
+												backgroundColor: '#007aff',
+												borderRadius: 5,
+												borderWidth: 1,
+												borderColor: '#007aff',
+												marginTop: 45,
+												marginRight: 5,
+												height: 40,
+												width: 80,
+												alignItems: 'center',
+												alignSelf: 'stretch'
+											}}
+											onPress={() => this.props.cartDelete(item)}
+										>
+											<Text
+												style={{
+													color: 'white',
+													alignSelf: 'center',
+													marginTop: 8
+												}}
+											>
+												Remove
+											</Text>
+										</TouchableOpacity>
+									</CardSection>
+								)}
+								keyExtractor={item => item._id}
 							/>
-							<View
-								style={{
-									width: 150,
-									paddingLeft: 17,
-									justifyContent: 'space-around'
-								}}
-							>
-								<Text style={{ fontSize: 15, fontWeight: 'bold' }}>
-									{item.name}
-								</Text>
-							</View>
-							<TouchableOpacity
-								style={{
-									flex: 1,
-									backgroundColor: '#007aff',
-									borderRadius: 5,
-									borderWidth: 1,
-									borderColor: '#007aff',
-									marginLeft: 5,
-									marginRight: 5,
-									marginTop: 20,
-									height: 40,
-									alignItems: 'center'
-								}}
-								onPress={() => this.props.cartDelete(item)}
+
+							<CardSection
+								style={{ height: 50, borderBottomWidth: 1, borderWidth: 2 }}
 							>
 								<Text
 									style={{
-										color: 'white',
-										alignSelf: 'center',
-										marginTop: 8
+										fontSize: 17,
+										fontWeight: 'bold',
+										textDecorationStyle: 'solid'
 									}}
 								>
-									Remove
+									TOTAL AMOUNT:
 								</Text>
-							</TouchableOpacity>
-						</CardSection>
-					)}
-					keyExtractor={item => item._id}
-				/>
+							</CardSection>
+							<CardSection
+								style={{
+									height: 60,
+									borderBottomWidth: 2,
+									borderWidth: 1,
+									justifyContent: 'space-around'
+								}}
+							>
+								<Button
+									onPress={() => {
+										axios({
+											method: 'POST',
+											url: 'http://192.168.43.228:3090/getamount',
+											data: {
+												amount: this.total
+											}
+										});
+										return Actions.purchase();
+									}}
+								>
+									Buy Now
+								</Button>
+							</CardSection>
+						</Card>
+					</ScrollView>
+				</Card>
 			);
 		}
 	}

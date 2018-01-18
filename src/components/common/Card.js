@@ -1,17 +1,17 @@
 import React from 'react';
 import { View } from 'react-native';
 
-const Card = props =>
-	<View style={styles.containerStyle}>
-		{props.children}
-	</View>;
+const Card = props => (
+	<View style={[styles.containerStyle, props.style]}>{props.children}</View>
+);
 
 const styles = {
 	containerStyle: {
-		elevation: 1,
+		elevation: 2,
 		marginLeft: 5,
 		marginRight: 5,
-		marginTop: 10
+		marginTop: 10,
+		marginBottom: 60
 	}
 };
 

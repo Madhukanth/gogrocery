@@ -7,3 +7,4 @@ export const LOGIN_SUCCESS = 'login_success';
 export const SIGNUP_SUCCESS = 'signup_success';
 export const CART_CHANGED = 'cart_changed';
 export const CART_DELETE = 'cart_delete';
+export const SEARCH = 'search';

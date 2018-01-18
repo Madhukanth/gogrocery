@@ -4,6 +4,9 @@ const VegetablesGet = require('./controllers/vegetablesGet');
 const GroceryGet = require('./controllers/groceryGet');
 const PersonalCareGet = require('./controllers/personalCareGet');
 const Stationery = require('./controllers/stationeryGet');
+const ClientToken = require('./braintree/braintree');
+const Purchase = require('./braintree/braintree');
+const GetAmount = require('./braintree/braintree');
 
 module.exports = app => {
 	app.post('/login', LoginAuth.login);
@@ -12,4 +15,7 @@ module.exports = app => {
 	app.get('/grocery', GroceryGet.groceryGet);
 	app.get('/personalCare', PersonalCareGet.personalCareGet);
 	app.get('/stationery', Stationery.stationeryGet);
+	app.get('/client_token', ClientToken.clientToken);
+	app.post('/purchase', Purchase.purchase);
+	app.post('/getamount', GetAmount.getAmount);
 };

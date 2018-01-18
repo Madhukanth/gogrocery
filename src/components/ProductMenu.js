@@ -17,8 +17,8 @@ class ProductMenu extends Component {
 			<TabNavigator>
 				<TabNavigator.Item
 					selected={this.state.selectedTab === 'vegetables&fruits'}
-					title="Vegatables&Fruits"
-					titleStyle={{ fontSize: 10, color: 'black' }}
+					title="Vegetables&Fruits"
+					titleStyle={{ fontSize: 11, color: 'black', fontWeight: 'bold' }}
 					tabStyle={{}}
 					renderIcon={() => (
 						<Image
@@ -37,7 +37,7 @@ class ProductMenu extends Component {
 				<TabNavigator.Item
 					selected={this.state.selectedTab === 'grocery'}
 					title="Grocery"
-					titleStyle={{ fontSize: 10, color: 'black' }}
+					titleStyle={{ fontSize: 12, color: 'black', fontWeight: 'bold' }}
 					renderIcon={() => (
 						<Image
 							style={{ height: 30, width: 30 }}
@@ -53,7 +53,7 @@ class ProductMenu extends Component {
 				<TabNavigator.Item
 					selected={this.state.selectedTab === 'personalCare'}
 					title="Personal Care"
-					titleStyle={{ fontSize: 10, color: 'black' }}
+					titleStyle={{ fontSize: 12, color: 'black', fontWeight: 'bold' }}
 					renderIcon={() => (
 						<Image
 							style={{ height: 30, width: 30 }}
@@ -69,7 +69,7 @@ class ProductMenu extends Component {
 				<TabNavigator.Item
 					selected={this.state.selectedTab === 'stationery'}
 					title="Stationery"
-					titleStyle={{ fontSize: 10, color: 'black' }}
+					titleStyle={{ fontSize: 12, color: 'black', fontWeight: 'bold' }}
 					renderIcon={() => (
 						<Image
 							style={{ height: 27, width: 27 }}

@@ -9,6 +9,7 @@ import PersonalCareFetch from './components/PersonalCareFetch';
 import StationeryFetch from './components/StationeryFetch';
 import VegetablesFetch from './components/VegetablesFetch';
 import CartList from './components/CartList';
+import PurchaseForm from './components/PurchaseForm';
 
 const RouterComponent = () => (
 	<Router>
@@ -34,15 +35,32 @@ const RouterComponent = () => (
 				titleStyle={{ alignSelf: 'center', color: 'green' }}
 				navigationBarStyle={{ height: 50 }}
 				renderRightButton={() => (
-					<TouchableOpacity
-						style={{ paddingRight: 30, width: 50 }}
-						onPress={() => Actions.cart()}
-					>
-						<Image
-							style={{ height: 40, width: 40 }}
-							source={require('../icons/cart2.png')}
-						/>
-					</TouchableOpacity>
+					<View style={{ flexDirection: 'row' }}>
+						<TouchableOpacity
+							style={{ paddingLeft: 1, width: 50, paddingTop: 6 }}
+							onPress={() => {}}
+						>
+							<Image
+								style={{
+									height: 30,
+									width: 30,
+									tintColor: '#007aff'
+								}}
+								source={require('../icons/search1.png')}
+							/>
+						</TouchableOpacity>
+						<TouchableOpacity
+							style={{ paddingLeft: 7, width: 50, paddingTop: 6 }}
+							onPress={() => {
+								Actions.cart();
+							}}
+						>
+							<Image
+								style={{ height: 35, width: 35, tintColor: '#007aff' }}
+								source={require('../icons/cart.png')}
+							/>
+						</TouchableOpacity>
+					</View>
 				)}
 				onRight={() => Actions.signup()}
 				left={() => (
@@ -67,6 +85,7 @@ const RouterComponent = () => (
 				titleStyle={{ alignSelf: 'center', paddingRight: 75 }}
 				component={CartList}
 			/>
+			<Scene key="purchase" title="Purchase Form" component={PurchaseForm} />
 		</Scene>
 	</Router>
 );
