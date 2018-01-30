@@ -5,9 +5,11 @@ import {
 	Image,
 	FlatList,
 	TouchableOpacity,
-	ScrollView
+	ScrollView,
+	ToastAndroid
 } from 'react-native';
 import axios from 'axios';
+
 import { Actions } from 'react-native-router-flux';
 import { connect } from 'react-redux';
 import { cartChanged, cartDelete } from '../actions/CartActions';
@@ -136,10 +138,10 @@ class CartList extends Component {
 
 										<TouchableOpacity
 											style={{
-												backgroundColor: '#007aff',
+												backgroundColor: 'red',
 												borderRadius: 5,
 												borderWidth: 1,
-												borderColor: '#007aff',
+												borderColor: 'red',
 												marginTop: 45,
 												marginRight: 5,
 												height: 40,
@@ -147,7 +149,14 @@ class CartList extends Component {
 												alignItems: 'center',
 												alignSelf: 'stretch'
 											}}
-											onPress={() => this.props.cartDelete(item)}
+											onPress={() => {
+												this.props.cartDelete(item);
+												return ToastAndroid.showWithGravity(
+													'Item removed',
+													ToastAndroid.SHORT,
+													ToastAndroid.BOTTOM
+												);
+											}}
 										>
 											<Text
 												style={{

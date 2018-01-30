@@ -6,8 +6,9 @@ import {
 	Text,
 	FlatList,
 	Dimensions,
-	Alert,
-	StyleSheet
+	StyleSheet,
+	ToastAndroid,
+	ToolbarAndroid
 } from 'react-native';
 import SearchInput, { createFilter } from 'react-native-search-filter';
 import { connect } from 'react-redux';
@@ -27,18 +28,15 @@ class GroceryFetch extends Component {
 	};
 
 	async componentWillMount() {
-		axios({
+		await axios({
 			method: 'GET',
 			url: 'http://192.168.43.228:3090/grocery'
 		})
 			.then(res => {
 				this.setState({ arr: res.data });
-				this.state.arr.map(item => {
-					this.setState({ name: [...this.state.name, item.name] });
-					this.setState({ url: [...this.state.url, item.imageurl] });
-					this.setState({ arr1: [...this.state.arr] });
-					return this.state.arr;
-				});
+
+				this.setState({ arr1: [...this.state.arr] });
+				return this.state.arr;
 			})
 			.then(() => this.setState({ loading: false }));
 	}
@@ -58,16 +56,23 @@ class GroceryFetch extends Component {
 				filteredItems = this.state.arr;
 			}
 			return (
-				<Card>
-					<SearchInput
-						onChangeText={term => {
-							this.searchUpdated(term);
-						}}
-						style={styles.searchInput}
-						placeholder="Search"
-						fuzzy
-						sortResults
-					/>
+				<Card style={{ marginBottom: 0 }}>
+					{(() => {
+						if (this.props.search === true) {
+							return (
+								<SearchInput
+									onChangeText={term => {
+										this.searchUpdated(term);
+									}}
+									style={styles.searchInput}
+									placeholder="Search"
+									fuzzy
+									sortResults
+								/>
+							);
+						}
+					})()}
+
 					<FlatList
 						data={filteredItems}
 						renderItem={({ item }) => (
@@ -123,27 +128,17 @@ class GroceryFetch extends Component {
 										}}
 										onPress={() => {
 											if (this.props.items.indexOf(item) !== -1) {
-												return Alert.alert(
-													'Item Exist',
-													'Item already exist in the cart list',
-													[
-														{
-															text: 'OK',
-															onPress: () => console.log('OK Pressed')
-														}
-													]
+												return ToastAndroid.showWithGravity(
+													'Item already exists in the cart',
+													1000,
+													ToastAndroid.BOTTOM
 												);
 											} else if (this.props.items.indexOf(item) === -1) {
 												this.props.cartChanged(item);
-												return Alert.alert(
-													'Item Added',
-													'Item added to the cart list',
-													[
-														{
-															text: 'OK',
-															onPress: () => console.log('OK Pressed')
-														}
-													]
+												return ToastAndroid.show(
+													'Item added to  the cart',
+													1000,
+													ToastAndroid.BOTTOM
 												);
 											}
 										}}
@@ -173,6 +168,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-	items: state.cart.items
+	items: state.cart.items,
+	search: state.cart.search
 });
 export default connect(mapStateToProps, { cartChanged })(GroceryFetch);

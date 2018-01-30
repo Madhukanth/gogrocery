@@ -6,17 +6,17 @@ import {
 	Text,
 	FlatList,
 	Dimensions,
-	Alert,
+	ToastAndroid,
 	StyleSheet
 } from 'react-native';
-import { connect } from 'react-redux';
 import SearchInput, { createFilter } from 'react-native-search-filter';
-import { Card, Input, CardSection, Spinner } from './common';
+import { connect } from 'react-redux';
 import { cartChanged } from '../actions/CartActions';
+import { Card, Input, CardSection, Spinner } from './common';
 
 const { height, width } = Dimensions.get('window');
 let filteredItems = [];
-class VegetablesFetch extends Component {
+class GroceryFetch extends Component {
 	state = {
 		loading: true,
 		arr: [],
@@ -27,18 +27,14 @@ class VegetablesFetch extends Component {
 	};
 
 	async componentWillMount() {
-		axios({
+		await axios({
 			method: 'GET',
 			url: 'http://192.168.43.228:3090/vegetables'
 		})
 			.then(res => {
 				this.setState({ arr: res.data });
-				this.state.arr.map(item => {
-					this.setState({ name: [...this.state.name, item.name] });
-					this.setState({ url: [...this.state.url, item.imageurl] });
-					this.setState({ arr1: [...this.state.arr] });
-					return this.state.arr;
-				});
+				this.setState({ arr1: [...this.state.arr] });
+				return this.state.arr;
 			})
 			.then(() => this.setState({ loading: false }));
 	}
@@ -58,29 +54,22 @@ class VegetablesFetch extends Component {
 				filteredItems = this.state.arr;
 			}
 			return (
-				<Card>
-					<SearchInput
-						onChangeText={term => {
-							this.searchUpdated(term);
-						}}
-						style={styles.searchInput}
-						placeholder="Search"
-						fuzzy
-						sortResults
-						clearIcon={
-							<Image
-								style={{
-									height: 30,
-									width: 30,
-									paddingBottom: 10,
-									tintColor: '#007aff'
-								}}
-								source={require('../../icons/clear.png')}
-							/>
+				<Card style={{ marginBottom: 0 }}>
+					{(() => {
+						if (this.props.search === true) {
+							return (
+								<SearchInput
+									onChangeText={term => {
+										this.searchUpdated(term);
+									}}
+									style={styles.searchInput}
+									placeholder="Search"
+									fuzzy
+									sortResults
+								/>
+							);
 						}
-						clearIconViewStyles={{ left: 300, position: 'absolute', top: 10 }}
-					/>
-
+					})()}
 					<FlatList
 						data={filteredItems}
 						renderItem={({ item }) => (
@@ -131,37 +120,27 @@ class VegetablesFetch extends Component {
 											borderColor: '#007aff',
 											marginLeft: 5,
 											marginRight: 5,
-											height: 37,
+											height: 30,
 											alignItems: 'center'
 										}}
 										onPress={() => {
 											if (this.props.items.indexOf(item) !== -1) {
-												return Alert.alert(
-													'Item Exist',
-													'Item already exist in the cart list',
-													[
-														{
-															text: 'OK',
-															onPress: () => console.log('OK Pressed')
-														}
-													]
+												return ToastAndroid.showWithGravity(
+													'Item already exists in the cart',
+													1000,
+													ToastAndroid.BOTTOM
 												);
 											} else if (this.props.items.indexOf(item) === -1) {
 												this.props.cartChanged(item);
-												return Alert.alert(
-													'Item Added',
-													'Item added to the cart list',
-													[
-														{
-															text: 'OK',
-															onPress: () => console.log('OK Pressed')
-														}
-													]
+												return ToastAndroid.show(
+													'Item added to  the cart',
+													1000,
+													ToastAndroid.BOTTOM
 												);
 											}
 										}}
 									>
-										<Text style={{ color: 'white', paddingTop: 5 }}>
+										<Text style={{ color: 'white', paddingTop: 2 }}>
 											Add to cart
 										</Text>
 									</TouchableOpacity>
@@ -177,17 +156,16 @@ class VegetablesFetch extends Component {
 	}
 }
 
-const mapStateToProps = state => ({
-	items: state.cart.items
-});
-
 const styles = StyleSheet.create({
 	searchInput: {
 		padding: 10,
-		borderColor: '#CCC',
-		borderWidth: 1,
-		backfaceVisibility: 'hidden'
+		borderColor: '#ccc',
+		borderWidth: 1
 	}
 });
 
-export default connect(mapStateToProps, { cartChanged })(VegetablesFetch);
+const mapStateToProps = state => ({
+	items: state.cart.items,
+	search: state.cart.search
+});
+export default connect(mapStateToProps, { cartChanged })(GroceryFetch);

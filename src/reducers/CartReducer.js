@@ -1,8 +1,9 @@
-import { CART_CHANGED, CART_DELETE } from '../actions/types';
+import { CART_CHANGED, CART_DELETE, SEARCH } from '../actions/types';
 
 let index;
 const INITIAL_STATE = {
-	items: []
+	items: [],
+	search: false
 };
 
 export default (state = INITIAL_STATE, action) => {
@@ -13,6 +14,8 @@ export default (state = INITIAL_STATE, action) => {
 			index = state.items.indexOf(action.payload);
 			state.items.splice(index, 1);
 			return { ...state, items: [...state.items] };
+		case SEARCH:
+			return { ...state, search: !state.search };
 		default:
 			return state;
 	}
