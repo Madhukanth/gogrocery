@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Image, View } from 'react-native';
 import { Scene, Router, Actions } from 'react-native-router-flux';
 import LoginForm from './components/LoginForm';
@@ -48,70 +49,88 @@ const stationeryIcon = () => (
 	/>
 );
 
-const RouterComponent = () => (
-	<View style={{ flex: 1 }}>
-		<ToolBar />
-		<Router>
-			<Scene key="auth">
-				<Scene
-					key="login"
-					component={LoginForm}
-					title="Login/Signin"
-					rightTitle="Signup"
-					onRight={() => Actions.signup()}
-				/>
-				<Scene
-					key="signup"
-					component={SignupForm}
-					titleStyle={{ alignItems: 'center' }}
-					title="Signup"
-				/>
+class RouterComponent extends Component {
+	render() {
+		return (
+			<View style={{ flex: 1 }}>
+				{(() => {
+					if (this.props.loggedin) {
+						return <ToolBar />;
+					}
+				})()}
 
-				<Scene
-					hideNavBar
-					tabs
-					tabBarPosition="bottom"
-					swipeEnabled
-					key="menu"
-					labelStyle={{ fontWeight: 'bold' }}
-					activeTintColor="#8583f0"
-				>
-					<Scene
-						key="grocery"
-						icon={groceryIcon}
-						tabBarLabel="Grocery"
-						component={GroceryFetch}
-					/>
-					<Scene
-						key="vegetables"
-						icon={vegetablesIcon}
-						tabBarLabel="Vegetables"
-						component={VegetablesFetch}
-					/>
-					<Scene
-						key="personalcare"
-						icon={personalCareIcon}
-						tabBarLabel="Personal Care"
-						component={PersonalCareFetch}
-					/>
-					<Scene
-						key="stationery"
-						icon={stationeryIcon}
-						tabBarLabel="Stationery"
-						component={StationeryFetch}
-					/>
-				</Scene>
+				<Router>
+					<Scene key="auth">
+						<Scene
+							key="login"
+							component={LoginForm}
+							title="Login/Signin"
+							rightTitle="Signup"
+							onRight={() => Actions.signup()}
+							hideNavBar
+						/>
+						<Scene
+							key="signup"
+							component={SignupForm}
+							titleStyle={{ alignItems: 'center' }}
+							title="Signup"
+						/>
 
-				<Scene
-					key="cart"
-					title="Cart List"
-					titleStyle={{ alignSelf: 'center', paddingRight: 75 }}
-					component={CartList}
-				/>
-				<Scene key="purchase" title="Purchase Form" component={PurchaseForm} />
-			</Scene>
-		</Router>
-	</View>
-);
+						<Scene
+							hideNavBar
+							tabs
+							tabBarPosition="bottom"
+							swipeEnabled
+							key="menu"
+							labelStyle={{ fontWeight: 'bold' }}
+							activeTintColor="#8583f0"
+						>
+							<Scene
+								key="grocery"
+								icon={groceryIcon}
+								tabBarLabel="Grocery"
+								component={GroceryFetch}
+							/>
+							<Scene
+								key="vegetables"
+								icon={vegetablesIcon}
+								tabBarLabel="Vegetables"
+								component={VegetablesFetch}
+							/>
+							<Scene
+								key="personalcare"
+								icon={personalCareIcon}
+								tabBarLabel="Personal Care"
+								component={PersonalCareFetch}
+							/>
+							<Scene
+								key="stationery"
+								icon={stationeryIcon}
+								tabBarLabel="Stationery"
+								component={StationeryFetch}
+							/>
+						</Scene>
 
-export default RouterComponent;
+						<Scene
+							key="cart"
+							title="Cart List"
+							titleStyle={{ alignSelf: 'center', paddingRight: 75 }}
+							component={CartList}
+						/>
+						<Scene
+							key="purchase"
+							title="Purchase Form"
+							component={PurchaseForm}
+						/>
+					</Scene>
+				</Router>
+			</View>
+		);
+	}
+}
+
+const mapStateToProps = state => ({
+	loggedin: state.auth.loggedin
+});
+
+export default connect(mapStateToProps, null)(RouterComponent);

@@ -4060,6 +4060,12 @@ react-native-android-back-button@^0.3.0:
   dependencies:
     react-side-effect "^1.0.2"
 
+react-native-animatable@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/react-native-animatable/-/react-native-animatable-1.2.4.tgz#b5fb7657e8f6edadbc26697057a327fb920b3039"
+  dependencies:
+    prop-types "^15.5.10"
+
 react-native-braintree-android@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/react-native-braintree-android/-/react-native-braintree-android-0.2.0.tgz#a104614a20458560bda5d32d7b06a50a1fc5b2e8"

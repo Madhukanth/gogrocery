@@ -20,6 +20,7 @@
     "react": "^16.2.0",
     "react-native": "^0.51.0",
     "react-native-android-back-button": "^0.3.0",
+    "react-native-animatable": "^1.2.4",
     "react-native-braintree-android": "^0.2.0",
     "react-native-button": "^2.1.0",
     "react-native-cancelable-fetch": "^0.1.1",
